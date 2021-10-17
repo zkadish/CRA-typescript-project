@@ -12,9 +12,15 @@ type appModalType = {
   type: string,
 }
 
+type appSnackbarType = {
+  open: boolean,
+  message: string,
+}
+
 // Define a type for the slice state
 interface RecordsState {
   appModal: appModalType,
+  appSnackbar: appSnackbarType,
   productDivisons: string[],
   productOwners: string[],
   productStatus: string[],
@@ -25,6 +31,10 @@ const initialState: RecordsState = {
   appModal: {
     open: false,
     type: 'recordsFilter',
+  },
+  appSnackbar: {
+    open: false,
+    message: '',
   },
   productDivisons,
   productOwners,
@@ -40,10 +50,13 @@ export const appSlice = createSlice({
     setAppModal: (state, action: PayloadAction<appModalType>) => {
       state.appModal = action.payload;
     },
+    setAppSnackBar: (state, action: PayloadAction<appSnackbarType>) => {
+      state.appSnackbar = action.payload;
+    },
   },
 })
 
-export const { setAppModal } = appSlice.actions
+export const { setAppModal, setAppSnackBar } = appSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 // export const selectCount = (state: RootState) => state.counter.value

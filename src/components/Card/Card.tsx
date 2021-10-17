@@ -17,6 +17,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { styled } from '@mui/material/styles';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { setProjectOwner, setProjectBudget, setProjectStatus } from '../../slices/RecordsSlice';
+import { setAppSnackBar } from '../../slices/AppSlice';
 
 interface recordType {
   id: string,
@@ -75,14 +76,17 @@ const BasicCard = (props: recordType) => {
 
   const onProductOwnersChange = (event: SelectChangeEvent<unknown>) => {
     dispatch(setProjectOwner({ id, project_owner: event!.target!.value }));
+    dispatch(setAppSnackBar({ open: true, message: `Project Updated! ${title}'s project owner has change to ${event!.target!.value}.` }));
   };
 
   const onBudgetChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setProjectBudget({ id, budget: event!.target!.value }));
+    dispatch(setAppSnackBar({ open: true, message: `Project Updated! ${title}'s budget has change to ${event!.target!.value}.` }));
   };
 
   const onProductStatusChange = (event: SelectChangeEvent<unknown>) => {
     dispatch(setProjectStatus({ id, status: event!.target!.value }));
+    dispatch(setAppSnackBar({ open: true, message: `Project Updated! ${title}'s status has change to ${event!.target!.value}.` }));
   }
 
   return (

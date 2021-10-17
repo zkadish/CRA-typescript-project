@@ -1,6 +1,7 @@
 import React from 'react';
 import Records from '../Records';
 import Dialog from '../../components/Dialog';
+import Snackbar from '../../components/Snackbar';
 import { useAppDispatch } from '../../hooks';
 import { setRecordsList } from '../../slices/RecordsSlice';
 
@@ -15,6 +16,7 @@ function App() {
     <>
       <Records />
       <Dialog />
+      <Snackbar />
     </>
   );
 }
