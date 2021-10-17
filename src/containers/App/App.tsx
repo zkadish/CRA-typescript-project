@@ -1,13 +1,21 @@
 import React from 'react';
 import Records from '../Records';
-import { Provider } from 'react-redux';
-import { store } from '../../store';
+import Dialog from '../../components/Dialog';
+import { useAppDispatch } from '../../hooks';
+import { setRecordsList } from '../../slices/RecordsSlice';
 
 function App() {
+  const dispatch = useAppDispatch();
+
+  React.useEffect(() => {
+    dispatch(setRecordsList());
+  }, []);
+
   return (
-    <Provider store={store}>
+    <>
       <Records />
-    </Provider>
+      <Dialog />
+    </>
   );
 }
 

@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
+import appReducer from '../slices/AppSlice';
 import recordsReducer from '../slices/RecordsSlice';
 
 
 export const store = configureStore({
   reducer: {
+    app: appReducer,
     records: recordsReducer,
   },
 });

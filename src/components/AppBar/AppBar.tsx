@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { styled, alpha } from '@mui/material/styles';
+import { useAppSelector, useAppDispatch } from '../../hooks';
+import { setAppModal } from '../../slices/AppSlice';
 import {
   AppBar,
   Box,
@@ -18,6 +20,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import { setFliterSettings, setFliteredList, onFilterRecords } from '../../slices/RecordsSlice';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -60,8 +63,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  const filterSettings = useAppSelector((state) => state.records.filterSettings);
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
+  const dispatch = useAppDispatch();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -81,6 +87,20 @@ export default function PrimarySearchAppBar() {
 
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const onFilterRecordsClick = () => {
+    dispatch(setAppModal({
+      open: true,
+      type: 'recordsModal',
+    }));
+  };
+
+  const onSearchKeyChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(event.target.value);
+    debugger
+    dispatch(setFliterSettings({ searchKey: event.target.value }));
+    dispatch(onFilterRecords());
   };
 
   const menuId = 'primary-search-account-menu';
@@ -185,10 +205,18 @@ export default function PrimarySearchAppBar() {
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              value={filterSettings.searchKey}
+              onChange={onSearchKeyChange}
             />
           </Search>
           <Box sx={{ flexGrow: 1 }}>
-            <Button variant="contained">Filter Records</Button>
+            <Button
+              variant="contained"
+              onClick={onFilterRecordsClick}
+            >
+              Filters
+            </Button>
+            {/* <Button variant="outlined">Filter Records</Button> */}
           </Box>
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton size="large" aria-label="show 4 new mails" color="inherit">

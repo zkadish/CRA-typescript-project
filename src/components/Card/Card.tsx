@@ -106,15 +106,15 @@ const BasicCard = (props: recordType) => {
           >
             {productOwners.map(owner => {
               return (
-                <MenuItem value={owner}>{owner}</MenuItem>
+                <MenuItem key={owner} value={owner}>{owner}</MenuItem>
               )
             })}
           </StyledSelect>
         </FormControl>
         <FormControl margin="dense" fullWidth>
-          <InputLabel htmlFor="outlined-adornment-amount">Budget</InputLabel>
+          <InputLabel htmlFor="outlined-adornment-budget">Budget</InputLabel>
           <StyledOutlinedInput
-            id="outlined-adornment-amount"
+            id="outlined-adornment-budget"
             value={budget}
             onChange={onBudgetChange}
             startAdornment={<InputAdornment position="start">$</InputAdornment>}
@@ -132,7 +132,7 @@ const BasicCard = (props: recordType) => {
           >
             {productStatus.map(status => {
               return (
-                <MenuItem value={status}>{status}</MenuItem>
+                <MenuItem key={status} value={status}>{status}</MenuItem>
               )
             })}
           </StyledSelect>

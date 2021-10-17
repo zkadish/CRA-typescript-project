@@ -7,6 +7,7 @@ import './RecordsGrid.scss';
 
 const RecordsGrid = () => {
   const filteredList = useAppSelector((state) => state.records.filteredList);
+  // debugger
   const dispatch = useAppDispatch();
 
   return (
@@ -14,7 +15,7 @@ const RecordsGrid = () => {
       {filteredList.map(record => {
         return (
           <Card
-            key={record.title}
+            key={record.id}
             title={record.title}
             division={record.division}
             project_owner={record.project_owner}
