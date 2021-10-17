@@ -1,4 +1,4 @@
-type recordType = {
+type recordListType = {
   title: string,
   division: string,
   project_owner: string,
@@ -8,7 +8,7 @@ type recordType = {
   modified: null | string,
 }
 
-export const records: recordType[] = [{
+export const records: recordListType[] = [{
   "title": "Tagtune",
   "division": "Accounting",
   "project_owner": "Kevin Snyder",

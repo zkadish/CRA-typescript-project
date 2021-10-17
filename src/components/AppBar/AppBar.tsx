@@ -99,7 +99,7 @@ export default function PrimarySearchAppBar() {
   const onSearchKeyChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log(event.target.value);
     debugger
-    dispatch(setFliterSettings({ searchKey: event.target.value }));
+    dispatch(setFliterSettings({ ...filterSettings, searchKey: event.target.value }));
     dispatch(onFilterRecords());
   };
 

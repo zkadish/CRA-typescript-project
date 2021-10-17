@@ -11,7 +11,7 @@ import {
 const shortid = require('shortid');
 
 type recordType = {
-  id?: string,
+  id: string,
   title: string,
   division: string,
   project_owner: string,
@@ -21,24 +21,35 @@ type recordType = {
   modified: null | string,
 }
 
+type projectOwnerType = {
+  id: string | undefined,
+  project_owner: string | unknown,
+}
+
+type projectBudgetType = {
+  id: string | undefined,
+  budget: number | unknown,
+}
+
+type projectStatusType = {
+  id: string | undefined,
+  status: string | unknown,
+}
+
 type filterSettingsType = {
-  searchKey?: string,
-  division?: string,
-  project_owner?: string,
-  budget?: number,
-  status?: string,
-  createdRange?: DateRange<Date | null>,
-  modifiedRange?: DateRange<Date | null>,
-  // createdFrom?: Date | null,
-  // createdTo?: Date | null,
-  // modifiedFrom?: Date | null,
-  // modifiedTo?: Date | null,
+  searchKey: string,
+  division: string,
+  project_owner: string,
+  budget: number,
+  status: string,
+  createdRange: DateRange<Date | null>,
+  modifiedRange: DateRange<Date | null>,
 }
 
 // Define a type for the slice state
 interface RecordsState {
-  list: recordType[],
-  filteredList: recordType[],
+  list: Array<recordType>,
+  filteredList: Array<recordType>,
   filterSettings: filterSettingsType,
   productDivisons: string[],
   productOwners: string[],
@@ -47,8 +58,8 @@ interface RecordsState {
 
 // Define the initial state using that type
 const initialState: RecordsState = {
-  list: records,
-  filteredList: records,
+  list: [],
+  filteredList: [],
   filterSettings: {
     searchKey: '',
     division: 'All',
@@ -57,10 +68,6 @@ const initialState: RecordsState = {
     status: 'All',
     createdRange: [null, null],
     modifiedRange: [null, null],
-    // createdFrom: null,
-    // createdTo: null,
-    // modifiedFrom: null,
-    // modifiedTo: null,
   },
   productDivisons,
   productOwners,
@@ -179,11 +186,52 @@ export const recordsSlice = createSlice({
         // dispatch(setFliteredList(result));
         state.filteredList = result;
       });
-    }
+    },
+    setProjectOwner: (state, action: PayloadAction<projectOwnerType>) => {
+      const list = state.list.map(l => ({ ...l }));
+      const record = list.find(l => l.id === action.payload.id);
+      record!.project_owner = `${action.payload!.project_owner}`;
+      state.list = list;
+
+      const filteredList = state.filteredList.map(l => ({ ...l }));
+      const filteredRecord = filteredList.find(l => l.id === action.payload.id);
+      filteredRecord!.project_owner = `${action.payload!.project_owner}`;
+      state.filteredList = filteredList;
+    },
+    setProjectBudget: (state, action: PayloadAction<projectBudgetType>) => {
+      const list = state.list.map(l => ({ ...l }));
+      const record = list.find(l => l.id === action.payload.id);
+      record!.budget = Number(action.payload!.budget);
+      state.list = list;
+
+      const filteredList = state.filteredList.map(l => ({ ...l }));
+      const filteredRecord = filteredList.find(l => l.id === action.payload.id);
+      filteredRecord!.budget = Number(action.payload!.budget);
+      state.filteredList = filteredList;
+    },
+    setProjectStatus: (state, action: PayloadAction<projectStatusType>) => {
+      const list = state.list.map(l => ({ ...l }));
+      const record = list.find(l => l.id === action.payload.id);
+      record!.status = `${action.payload!.status}`;
+      state.list = list;
+
+      const filteredList = state.filteredList.map(l => ({ ...l }));
+      const filteredRecord = filteredList.find(l => l.id === action.payload.id);
+      filteredRecord!.status = `${action.payload!.status}`;
+      state.filteredList = filteredList;
+    },
   },
 })
 
-export const { setRecordsList, setFliteredList, setFliterSettings, onFilterRecords } = recordsSlice.actions
+export const {
+  setRecordsList,
+  setFliteredList,
+  setFliterSettings,
+  onFilterRecords,
+  setProjectOwner,
+  setProjectBudget,
+  setProjectStatus,
+} = recordsSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 // export const selectCount = (state: RootState) => state.counter.value

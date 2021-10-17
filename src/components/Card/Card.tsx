@@ -7,17 +7,19 @@ import {
   Button,
   Typography,
   TextField,
-  Select,
   MenuItem,
   InputLabel,
   FormControl,
   OutlinedInput,
   InputAdornment,
 } from '@mui/material';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { styled } from '@mui/material/styles';
 import { useAppSelector, useAppDispatch } from '../../hooks';
+import { setProjectOwner, setProjectBudget, setProjectStatus } from '../../slices/RecordsSlice';
 
-type recordType = {
+interface recordType {
+  id: string,
   title: string,
   division: string,
   project_owner: string,
@@ -58,6 +60,7 @@ const bull = (
 
 const BasicCard = (props: recordType) => {
   const {
+    id,
     title,
     division,
     project_owner,
@@ -68,17 +71,18 @@ const BasicCard = (props: recordType) => {
   } = props;
   const productOwners = useAppSelector((state) => state.records.productOwners);
   const productStatus = useAppSelector((state) => state.records.productStatus);
+  const dispatch = useAppDispatch();
 
-  const onProductOwnersChange = () => {
-    // TODO: update records state
+  const onProductOwnersChange = (event: SelectChangeEvent<unknown>) => {
+    dispatch(setProjectOwner({ id, project_owner: event!.target!.value }));
   };
 
-  const onBudgetChange = () => {
-    // TODO: add debounce, update records state
+  const onBudgetChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setProjectBudget({ id, budget: event!.target!.value }));
   };
 
-  const onProductStatusChange = () => {
-    // TODO: update records state
+  const onProductStatusChange = (event: SelectChangeEvent<unknown>) => {
+    dispatch(setProjectStatus({ id, status: event!.target!.value }));
   }
 
   return (

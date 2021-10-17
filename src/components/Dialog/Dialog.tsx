@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { setAppModal } from '../../slices/AppSlice';
-import { setFliterSettings, setFliteredList, onFilterRecords } from '../../slices/RecordsSlice';
+import { setFliterSettings, onFilterRecords } from '../../slices/RecordsSlice';
 import { styled } from '@mui/material/styles';
 import {
   Button,
@@ -10,7 +10,6 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Typography,
   FormControl,
   InputLabel,
   MenuItem,
@@ -82,14 +81,16 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function CustomizedDialogs() {
-  const list = useAppSelector((state) => state.records.list);
-  const filteredList = useAppSelector((state) => state.records.filteredList);
+  // const list = useAppSelector((state) => state.records.list);
+  // const filteredList = useAppSelector((state) => state.records.filteredList);
   const filterSettings = useAppSelector((state) => state.records.filterSettings);
   const productDivisons = useAppSelector((state) => state.app.productDivisons);
   const productOwners = useAppSelector((state) => state.app.productOwners);
   const productStatus = useAppSelector((state) => state.app.productStatus);
   const appModal = useAppSelector((state) => state.app.appModal);
   const dispatch = useAppDispatch();
+
+  // const { createdRange? } = filterSettings;
 
   const handleClose = () => {
     dispatch(setAppModal({
@@ -99,145 +100,33 @@ export default function CustomizedDialogs() {
   };
 
   const onDivisionsChange = (event: SelectChangeEvent<unknown>) => {
-    dispatch(setFliterSettings({ division: event.target.value as string}));
+    dispatch(setFliterSettings({ ...filterSettings, division: event.target.value as string}));
   };
 
   const onProductOwnersChange = (event: SelectChangeEvent<unknown>) => {
-    dispatch(setFliterSettings({ project_owner: event.target.value as string}));
+    dispatch(setFliterSettings({ ...filterSettings, project_owner: event.target.value as string}));
   };
 
   const onBudgetChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     // TODO: allow for decimal points
     const value = Number(event.target.value);
-    dispatch(setFliterSettings({ budget: value}));
+    dispatch(setFliterSettings({ ...filterSettings, budget: value}));
   };
 
   const onProductStatusChange = (event: SelectChangeEvent<unknown>) => {
-    dispatch(setFliterSettings({ status: event.target.value as string}));
+    dispatch(setFliterSettings({ ...filterSettings, status: event.target.value as string}));
   };
 
-  // const onCreatedFromChange = (value: Date | null) => {
-  //   const fromDateString = `${value?.getMonth()}/${value?.getDay()}/${value?.getFullYear()}`; 
-  //   dispatch(setFliterSettings({ createdFrom: fromDateString }));
-  //   // debugger
-  //   const newList = filteredList.filter(record => {
-  //     const recordDate = new Date(record.created);
-  //     const fromDate = new Date(fromDateString);
-  //     return recordDate > fromDate;
-  //   });
-
-  //   dispatch(setFliteredList(newList));
-  // };
-
-  // const onCreatedToChange = (value: Date | null) => {
-  //   const fromDateString = `${value?.getUTCMonth()}/${value?.getUTCDay()}/${value?.getUTCFullYear()}`;
-  //   // debugger
-  //   dispatch(setFliterSettings({ createdFrom: fromDateString }));
-  //   // debugger
-  //   const newList = filteredList.filter(record => {
-  //     const recordDate = new Date(record.created);
-  //     const fromDate = new Date(fromDateString);
-  //     return recordDate > fromDate;
-  //   });
-  // };
-
   const setCreatedDateRange = (dates: DateRange<Date | null>) => {
-    dispatch(setFliterSettings({ createdRange: dates}));
+    dispatch(setFliterSettings({ ...filterSettings, createdRange: dates}));
   };
 
   const setModifiedDateRange = (dates: DateRange<Date | null>) => {
-    dispatch(setFliterSettings({ modifiedRange: dates }));
+    dispatch(setFliterSettings({ ...filterSettings, modifiedRange: dates }));
   };
 
   const onFilter = () => {
     dispatch(onFilterRecords());
-    // const filterKeys = Object.keys(filterSettings);
-    // debugger
-    // let result = list.map(r => ({ ...r }));
-    // filterKeys.forEach((key) => {
-    //   debugger
-    //   switch (key) {
-    //     case 'division':
-    //       if (filterSettings[key] === 'All') break;
-    //       result = result.filter(r => {
-    //         const test = r[key] === filterSettings[key];
-    //         return test;
-    //       });
-    //       // debugger
-    //       break;
-    //     case 'project_owner':
-    //       if (filterSettings[key] === 'All') break;
-    //       result = result.filter(r => {
-    //         const test = r[key] === filterSettings[key];
-    //         return test;
-    //       });
-    //       // debugger
-    //       break;
-    //     case 'status':
-    //       if (filterSettings[key] === 'All') break;
-    //       result = result.filter(r => {
-    //         const test = r[key] === filterSettings[key]?.toLowerCase();
-    //         return test;
-    //       });
-    //       // debugger
-    //       break;
-    //     case 'budget':
-    //       result = result.filter(r => {
-    //         const test = r[key] >= Number(filterSettings[key]);
-    //         return test;
-    //       });
-    //       // debugger
-    //       break;
-    //     case 'createdRange':
-    //       if (filterSettings[key]?.[0] === null && filterSettings[key]?.[1] === null) break;
-    //       if (filterSettings[key]?.[0] !== null) {
-    //         result = result.filter(r => {
-    //           // @ts-ignore: Object is possibly 'null'.
-    //           const test = new Date(r.created) >= new Date(filterSettings.createdRange[0]);
-    //           return test;
-    //         });
-    //         debugger
-    //       }
-    //       if (filterSettings[key]?.[1] !== null) {
-    //         result = result.filter(r => {
-    //           // @ts-ignore: Object is possibly 'null'.
-    //           const test = new Date(r.created) <= new Date(filterSettings.createdRange[1]);
-    //           return test;
-    //         });
-    //         debugger
-    //       }
-    //       debugger
-    //       break;
-    //     case 'modifiedRange':
-    //       if (filterSettings[key]?.[0] === null && filterSettings[key]?.[1] === null) break;
-    //       if (filterSettings[key]?.[0] !== null) {
-    //         result = result.filter(r => {
-    //           // @ts-ignore: Object is possibly 'null'.
-    //           const test = new Date(r.modified) >= new Date(filterSettings.modifiedRange[0]);
-    //           return test;
-    //         });
-    //         debugger
-    //       }
-    //       if (filterSettings[key]?.[1] !== null) {
-    //         result = result.filter(r => {
-    //           // @ts-ignore: Object is possibly 'null'.
-    //           const test = new Date(r.modified) <= new Date(filterSettings.modifiedRange[1]);
-    //           return test;
-    //         });
-    //         debugger
-    //       }
-    //       debugger
-    //       break;
-    //     default:
-    //       // do nothing
-    //   }
-    //   dispatch(setFliteredList(result));
-    // });
-
-    // dispatch(setAppModal({
-    //   open: false,
-    //   type: 'recordsModal',
-    // }));
   };
 
   return (
@@ -313,11 +202,13 @@ export default function CustomizedDialogs() {
             <DatePicker
               startText="Created from"
               endText="Created to"
+              range={filterSettings.createdRange}
               setDateRange={setCreatedDateRange}
             />
             <DatePicker
               startText="Modified from"
               endText="Modified to"
+              range={filterSettings.modifiedRange}
               setDateRange={setModifiedDateRange}
             />
           </div>
