@@ -97,34 +97,49 @@ export default function CustomizedDialogs() {
   };
 
   const onDivisionsChange = (event: SelectChangeEvent<unknown>) => {
-    dispatch(setFliterSettings({ ...filterSettings, division: event.target.value as string}));
+    dispatch(setFliterSettings({ ...filterSettings, division: event.target.value as string }));
+    dispatch(onFilterRecords());
   };
 
   const onProductOwnersChange = (event: SelectChangeEvent<unknown>) => {
-    dispatch(setFliterSettings({ ...filterSettings, project_owner: event.target.value as string}));
+    dispatch(setFliterSettings({ ...filterSettings, project_owner: event.target.value as string }));
+    dispatch(onFilterRecords());
   };
 
   const onBudgetChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     // TODO: allow for decimal points
     const value = Number(event.target.value);
-    dispatch(setFliterSettings({ ...filterSettings, budget: value}));
+    dispatch(setFliterSettings({ ...filterSettings, budget: value }));
+    dispatch(onFilterRecords());
   };
 
   const onProductStatusChange = (event: SelectChangeEvent<unknown>) => {
-    dispatch(setFliterSettings({ ...filterSettings, status: event.target.value as string}));
+    dispatch(setFliterSettings({ ...filterSettings, status: event.target.value as string }));
+    dispatch(onFilterRecords());
   };
 
   const setCreatedDateRange = (dates: DateRange<Date | null>) => {
-    dispatch(setFliterSettings({ ...filterSettings, createdRange: dates}));
+    dispatch(setFliterSettings({ ...filterSettings, createdRange: dates }));
+    dispatch(onFilterRecords());
   };
 
   const setModifiedDateRange = (dates: DateRange<Date | null>) => {
     dispatch(setFliterSettings({ ...filterSettings, modifiedRange: dates }));
-  };
-
-  const onFilter = () => {
     dispatch(onFilterRecords());
   };
+
+  const onClear = () => {
+    dispatch(setFliterSettings({
+      division: 'All',
+      project_owner: 'All',
+      budget: 0,
+      status: 'All',
+      createdRange: [null, null],
+      modifiedRange: [null, null],
+      searchKey: '',
+    }));
+    dispatch(onFilterRecords());
+  }
 
   return (
     <div>
@@ -211,11 +226,11 @@ export default function CustomizedDialogs() {
           </div>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleClose}>
+          <Button autoFocus onClick={onClear}>
             clear
           </Button>
-          <Button autoFocus onClick={onFilter}>
-            Filter
+          <Button autoFocus onClick={handleClose}>
+            Close
           </Button>
         </DialogActions>
       </BootstrapDialog>
