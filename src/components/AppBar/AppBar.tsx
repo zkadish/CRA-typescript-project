@@ -92,7 +92,14 @@ export default function PrimarySearchAppBar() {
   const onFilterRecordsClick = () => {
     dispatch(setAppModal({
       open: true,
-      type: 'recordsModal',
+      type: 'recordsFilter',
+    }));
+  };
+
+  const onAnalyticsClick = () => {
+    dispatch(setAppModal({
+      open: true,
+      type: 'analytics',
     }));
   };
 
@@ -198,6 +205,14 @@ export default function PrimarySearchAppBar() {
           >
             Project Dashboard
           </Typography>
+          <Box sx={{ flexGrow: 1 }} />
+          <Button
+            variant="contained"
+            onClick={onAnalyticsClick}
+          >
+            Analytics
+          </Button>
+          {/* <Box sx={{ flexGrow: 1 }} /> */}
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -209,13 +224,13 @@ export default function PrimarySearchAppBar() {
               onChange={onSearchKeyChange}
             />
           </Search>
+          <Button
+            variant="contained"
+            onClick={onFilterRecordsClick}
+          >
+            Filters
+          </Button>
           <Box sx={{ flexGrow: 1 }}>
-            <Button
-              variant="contained"
-              onClick={onFilterRecordsClick}
-            >
-              Filters
-            </Button>
             {/* <Button variant="outlined">Filter Records</Button> */}
           </Box>
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>

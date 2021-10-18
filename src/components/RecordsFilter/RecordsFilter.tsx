@@ -81,8 +81,6 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function CustomizedDialogs() {
-  // const list = useAppSelector((state) => state.records.list);
-  // const filteredList = useAppSelector((state) => state.records.filteredList);
   const filterSettings = useAppSelector((state) => state.records.filterSettings);
   const productDivisons = useAppSelector((state) => state.app.productDivisons);
   const productOwners = useAppSelector((state) => state.app.productOwners);
@@ -90,7 +88,6 @@ export default function CustomizedDialogs() {
   const appModal = useAppSelector((state) => state.app.appModal);
   const dispatch = useAppDispatch();
 
-  // const { createdRange? } = filterSettings;
 
   const handleClose = () => {
     dispatch(setAppModal({
@@ -134,7 +131,7 @@ export default function CustomizedDialogs() {
       <BootstrapDialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
-        open={appModal.open}
+        open={appModal.open && appModal.type === 'recordsFilter'}
       >
         <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
           Records filters
