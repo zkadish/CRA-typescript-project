@@ -103,9 +103,14 @@ export default function PrimarySearchAppBar() {
     }));
   };
 
+  const onExportClick = () => {
+    dispatch(setAppModal({
+      open: true,
+      type: 'export',
+    }));
+  };
+
   const onSearchKeyChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value);
-    debugger
     dispatch(setFliterSettings({ ...filterSettings, searchKey: event.target.value }));
     dispatch(onFilterRecords());
   };
@@ -212,7 +217,6 @@ export default function PrimarySearchAppBar() {
           >
             Analytics
           </Button>
-          {/* <Box sx={{ flexGrow: 1 }} /> */}
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -230,9 +234,14 @@ export default function PrimarySearchAppBar() {
           >
             Filters
           </Button>
-          <Box sx={{ flexGrow: 1 }}>
-            {/* <Button variant="outlined">Filter Records</Button> */}
-          </Box>
+          <Box sx={{ flexGrow: .05 }} />
+          <Button
+            variant="contained"
+            onClick={onExportClick}
+          >
+            Export
+          </Button>
+          <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="error">

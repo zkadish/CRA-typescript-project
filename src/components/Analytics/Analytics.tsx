@@ -1,9 +1,7 @@
 import * as React from 'react';
-// import PropTypes from 'prop-types';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { setAppModal } from '../../slices/AppSlice';
 // import { setFliterSettings, onFilterRecords } from '../../slices/RecordsSlice';
-
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
@@ -16,6 +14,9 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  '& .MuiPaper-root': {
+    width: '600px',
+  },
   '& .MuiDialogContent-root': {
     padding: theme.spacing(2),
   },
@@ -97,7 +98,7 @@ export default function CustomizedDialogs() {
   const dispatch = useAppDispatch();
 
   const handleClose = () => {
-    dispatch(setAppModal({ open: false, type: 'analytics' }))
+    dispatch(setAppModal({ open: false, type: 'analytics' }));
   };
   
   React.useEffect(() => {
@@ -141,13 +142,13 @@ export default function CustomizedDialogs() {
   React.useEffect(() => {
     const total = filteredList.reduce((acum, ele) => acum + ele.budget, 0);
     const average = (total / filteredList.length).toFixed(2);
-    // debugger
     setAverageBudget(average);
   }, [averageBudget, filteredList]);
 
   return (
-    <div>
+    <div className="analytics">
       <BootstrapDialog
+        className="analytics"
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={appModal.open && appModal.type === 'analytics'}
@@ -156,57 +157,63 @@ export default function CustomizedDialogs() {
           Analytics at a Glance
         </BootstrapDialogTitle>
         <DialogContent dividers>
-          <Typography gutterBottom>Number of projects by division:</Typography>
-          <Divider />
-          {productDivisons.map(division => {
-            if (filterSettings.division.toLowerCase().includes('all')) {
+          <div style={{ margin: '0 0 24px' }}>
+            <Typography gutterBottom>Number of projects by division:</Typography>
+            {/* <Divider /> */}
+            {productDivisons.map(division => {
+              if (filterSettings.division.toLowerCase().includes('all')) {
+                return (
+                  <div key={division}>
+                    <span>{division}:</span>{' '}<span>{divisionNum[division.toLowerCase()]}</span>
+                  </div>
+                )
+              }
+              if (divisionNum[division.toLowerCase()] === '0') return null;
               return (
                 <div key={division}>
                   <span>{division}:</span>{' '}<span>{divisionNum[division.toLowerCase()]}</span>
                 </div>
               )
-            }
-            if (divisionNum[division.toLowerCase()] === '0') return null;
-            return (
-              <div key={division}>
-                <span>{division}:</span>{' '}<span>{divisionNum[division.toLowerCase()]}</span>
-              </div>
-            )
-          })}
-          <Typography gutterBottom>Number of projects by project owner:</Typography>
-          <Divider />
-          {productOwners.map(owner => {
-            if (filterSettings.project_owner.toLowerCase().includes('all')) {
+            })}
+          </div>
+          <div style={{ margin: '0 0 24px' }}>
+            <Typography gutterBottom>Number of projects by project owner:</Typography>
+            {/* <Divider /> */}
+            {productOwners.map(owner => {
+              if (filterSettings.project_owner.toLowerCase().includes('all')) {
+                return (
+                  <div key={owner}>
+                    <span>{owner}:</span>{' '}<span>{projectOwnerNum[owner.toLowerCase()]}</span>
+                  </div>
+                )
+              }
+              if (projectOwnerNum[owner.toLowerCase()] === '0') return null;
               return (
                 <div key={owner}>
                   <span>{owner}:</span>{' '}<span>{projectOwnerNum[owner.toLowerCase()]}</span>
                 </div>
               )
-            }
-            if (projectOwnerNum[owner.toLowerCase()] === '0') return null;
-            return (
-              <div key={owner}>
-                <span>{owner}:</span>{' '}<span>{projectOwnerNum[owner.toLowerCase()]}</span>
-              </div>
-            )
-          })}
-          <Typography gutterBottom>Number of projects by project owner:</Typography>
-          <Divider />
-          {productStatus.map(status => {
-            if (filterSettings.status.toLowerCase().includes('all')) {
+            })}
+          </div>
+          <div style={{ margin: '0 0 24px' }}>
+            <Typography gutterBottom>Number of projects by project owner:</Typography>
+            {/* <Divider /> */}
+            {productStatus.map(status => {
+              if (filterSettings.status.toLowerCase().includes('all')) {
+                return (
+                  <div key={status}>
+                    <span>{status}:</span>{' '}<span>{statusNum[status.toLowerCase()]}</span>
+                  </div>
+                )
+              }
+              if (statusNum[status.toLowerCase()] === '0') return null;
               return (
                 <div key={status}>
                   <span>{status}:</span>{' '}<span>{statusNum[status.toLowerCase()]}</span>
                 </div>
               )
-            }
-            if (statusNum[status.toLowerCase()] === '0') return null;
-            return (
-              <div key={status}>
-                <span>{status}:</span>{' '}<span>{statusNum[status.toLowerCase()]}</span>
-              </div>
-            )
-          })}
+            })}
+          </div>
           <Typography gutterBottom>Project Budget Average: {averageBudget}</Typography>
         </DialogContent>
         <DialogActions>
