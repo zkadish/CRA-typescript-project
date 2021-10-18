@@ -20,7 +20,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import { setFliterSettings, setFliteredList, onFilterRecords } from '../../slices/RecordsSlice';
+import { setFliterSettings, onFilterRecords } from '../../slices/RecordsSlice';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {
-  Box,
   Card,
   CardActions,
   CardContent,
@@ -49,15 +48,6 @@ const StyledOutlinedInput = styled(OutlinedInput)({
     padding: '8px 16px',
   }
 });
-
-const bull = (
-  <Box
-    component="span"
-    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-  >
-    •
-  </Box>
-);
 
 const BasicCard = (props: recordType) => {
   const {

@@ -10,7 +10,7 @@ function App() {
 
   React.useEffect(() => {
     dispatch(setRecordsList());
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

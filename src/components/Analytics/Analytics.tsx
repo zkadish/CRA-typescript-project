@@ -1,8 +1,8 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { setAppModal } from '../../slices/AppSlice';
-import { setFliterSettings, onFilterRecords } from '../../slices/RecordsSlice';
+// import { setFliterSettings, onFilterRecords } from '../../slices/RecordsSlice';
 
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
@@ -66,15 +66,15 @@ const divObj: objDataType = {
   sales: '0',
 }
 
-// const ownObj: objDataType = {
-//   'Eugene Brown': '0',
-//   'Kevin Snyder': '0',
-//   'Killgore Trout': '0',
-//   'James Holden': '0',
-//   'Michelle Webb': '0',
-//   'Nicole Smith': '0',
-//   'Richard Henry': '0',
-// }
+const ownObj: objDataType = {
+  'Eugene Brown': '0',
+  'Kevin Snyder': '0',
+  'Killgore Trout': '0',
+  'James Holden': '0',
+  'Michelle Webb': '0',
+  'Nicole Smith': '0',
+  'Richard Henry': '0',
+}
 
 const statObj: objDataType = {
   new: '0',
@@ -110,16 +110,6 @@ export default function CustomizedDialogs() {
     });
     setDivisionNum(divObj);
 
-    const ownObj: objDataType = {
-      'Eugene Brown': '0',
-      'Kevin Snyder': '0',
-      'Killgore Trout': '0',
-      'James Holden': '0',
-      'Michelle Webb': '0',
-      'Nicole Smith': '0',
-      'Richard Henry': '0',
-    }
-
     productOwners.forEach((owner) => {
       const num = filteredList.reduce((acum, num) => {
         if (num.project_owner === owner) return acum + 1;
@@ -138,14 +128,22 @@ export default function CustomizedDialogs() {
       statObj[status.toLowerCase()] = `${num}`;
     });
     setStatusNum(statObj);
-  }, [divisionNum, projectOwnerNum, statusNum]);
+  }, [
+    divisionNum,
+    projectOwnerNum,
+    statusNum,
+    filteredList,
+    productDivisons,
+    productOwners,
+    productStatus,
+  ]);
 
   React.useEffect(() => {
     const total = filteredList.reduce((acum, ele) => acum + ele.budget, 0);
     const average = (total / filteredList.length).toFixed(2);
     // debugger
     setAverageBudget(average);
-  }, [averageBudget]);
+  }, [averageBudget, filteredList]);
 
   return (
     <div>
@@ -163,14 +161,14 @@ export default function CustomizedDialogs() {
           {productDivisons.map(division => {
             if (filterSettings.division.toLowerCase().includes('all')) {
               return (
-                <div>
+                <div key={division}>
                   <span>{division}:</span>{' '}<span>{divisionNum[division.toLowerCase()]}</span>
                 </div>
               )
             }
             if (divisionNum[division.toLowerCase()] === '0') return null;
             return (
-              <div>
+              <div key={division}>
                 <span>{division}:</span>{' '}<span>{divisionNum[division.toLowerCase()]}</span>
               </div>
             )
@@ -180,14 +178,14 @@ export default function CustomizedDialogs() {
           {productOwners.map(owner => {
             if (filterSettings.project_owner.toLowerCase().includes('all')) {
               return (
-                <div>
+                <div key={owner}>
                   <span>{owner}:</span>{' '}<span>{projectOwnerNum[owner.toLowerCase()]}</span>
                 </div>
               )
             }
             if (projectOwnerNum[owner.toLowerCase()] === '0') return null;
             return (
-              <div>
+              <div key={owner}>
                 <span>{owner}:</span>{' '}<span>{projectOwnerNum[owner.toLowerCase()]}</span>
               </div>
             )
@@ -197,14 +195,14 @@ export default function CustomizedDialogs() {
           {productStatus.map(status => {
             if (filterSettings.status.toLowerCase().includes('all')) {
               return (
-                <div>
+                <div key={status}>
                   <span>{status}:</span>{' '}<span>{statusNum[status.toLowerCase()]}</span>
                 </div>
               )
             }
             if (statusNum[status.toLowerCase()] === '0') return null;
             return (
-              <div>
+              <div key={status}>
                 <span>{status}:</span>{' '}<span>{statusNum[status.toLowerCase()]}</span>
               </div>
             )

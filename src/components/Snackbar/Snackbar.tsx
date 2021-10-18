@@ -1,6 +1,5 @@
 import * as React from 'react';
-// import Button from '@mui/material/Button';
-import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
+import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { setAppSnackBar } from '../../slices/AppSlice';
@@ -18,9 +17,6 @@ export interface State {
   vertical: 'top',
   horizontal: 'center',
 }
-// export interface propsTypes {
-//   open: boolean;
-// }
 
 export default function PositionedSnackbar() {
   const appSnackbar = useAppSelector((state) => state.app.appSnackbar);

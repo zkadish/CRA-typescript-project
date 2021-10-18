@@ -1,14 +1,11 @@
 import React from 'react';
 import Card from '../../components/Card';
-import { useAppSelector, useAppDispatch } from '../../hooks';
-import { setFliteredList } from '../../slices/RecordsSlice';
+import { useAppSelector } from '../../hooks';
 
 import './RecordsGrid.scss';
 
 const RecordsGrid = () => {
   const filteredList = useAppSelector((state) => state.records.filteredList);
-  // debugger
-  const dispatch = useAppDispatch();
 
   return (
     <div className="records-grid">
